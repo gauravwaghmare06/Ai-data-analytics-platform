@@ -1,31 +1,47 @@
 # AI Data Analytics Platform
 
-AI Data Analytics Platform is a production-focused portfolio project designed to provide a reliable foundation for dataset-driven analytics workflows that will evolve across structured development phases.
+AI Data Analytics Platform is a production-focused portfolio project for dataset upload, profiling, and progressively expanding analytics capabilities.
 
-## Phase 1 Status (Current)
+## Phase 2 Status (Current)
 
-✅ **Completed:** Production Project Foundation
+✅ **Completed:** Dataset Upload & Data Profiling
 
-Implemented in Phase 1:
-- Modular project structure for app, services, pages, utilities, tests, and data assets
-- Streamlit entry point with professional landing shell and clean navigation
+Implemented through Phase 2:
+- Modular Streamlit application foundation
 - Centralized environment-based configuration
-- Reusable logging module
-- Custom exception hierarchy
-- Reusable validation utilities (file type, file size, required config values)
-- Initial pytest suite for core foundation behavior
-- Synthetic sample dataset for safe local development
+- Reusable logging and exception hierarchy
+- File validation utilities for upload type/size checks
+- CSV/XLSX dataset loading service with robust error handling
+- Reusable data profiling service for overview, quality, numeric, and categorical summaries
+- Session-state dataset management for active uploaded data
+- Data Profiling UI page with:
+  - upload section
+  - KPI summary cards
+  - dataset preview
+  - column information table
+  - data-quality warnings
+  - numeric and categorical summaries
+- Pytest coverage for configuration, validators, loader, profiler, and exceptions
 
-Not implemented yet (planned for later phases):
-- Data profiling and cleaning workflows
-- EDA dashboards and interactive advanced visual analytics
-- AI insights and dataset Q&A
-- ML prediction pipelines
+Not implemented yet (planned later):
+- Data cleaning workflow
+- Advanced dashboarding/visual storytelling
+- AI insights and natural-language dataset Q&A
+- Machine learning prediction pipelines
+
+## Supported Data Formats
+
+- `.csv`
+- `.xlsx`
+
+Upload limits and allowed extensions are controlled by environment variables.
 
 ## Technology Stack
 
 - Python 3.12+
 - Streamlit
+- Pandas
+- OpenPyXL
 - python-dotenv
 - pytest
 
@@ -36,15 +52,19 @@ ai-data-analytics-platform/
 ├─ app/
 │  ├─ main.py
 │  ├─ config.py
-│  ├─ components/
 │  ├─ pages/
+│  │  └─ data_profile.py
 │  ├─ services/
+│  │  ├─ data_loader.py
+│  │  ├─ data_profiler.py
+│  │  └─ dataset_state.py
 │  └─ utils/
 │     ├─ exceptions.py
 │     ├─ logger.py
 │     └─ validators.py
 ├─ data/
 │  └─ sample/
+│     └─ sales_demo.csv
 ├─ docs/
 ├─ models/
 ├─ screenshots/
@@ -56,49 +76,38 @@ ai-data-analytics-platform/
 
 ## Local Setup
 
-### 1) Clone repository
-
 ```bash
 git clone https://github.com/gauravwaghmare06/Ai-data-analytics-platform.git
 cd Ai-data-analytics-platform
-```
-
-### 2) Create and activate virtual environment
-
-Linux/macOS:
-
-```bash
 python3 -m venv .venv
 source .venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+cp .env.example .env
 ```
 
-Windows (PowerShell):
+Windows PowerShell virtual environment activation:
 
 ```powershell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 ```
 
-### 3) Install dependencies
-
-```bash
-pip install --upgrade pip
-pip install -r requirements.txt
-```
-
-### 4) Configure environment variables
-
-```bash
-cp .env.example .env
-```
-
-Edit `.env` as needed for your local environment.
-
-## Run the Streamlit Application
+## Run the Application
 
 ```bash
 streamlit run app/main.py
 ```
+
+## How to Use Data Profiling
+
+1. Open the app.
+2. Go to **Data Profiling** from the sidebar.
+3. Upload a CSV or XLSX file.
+4. Review dataset summary KPIs (rows, columns, missing values, duplicates).
+5. Inspect preview, column-level profile, quality warnings, and statistical summaries.
+
+You can use `data/sample/sales_demo.csv` as a safe synthetic demo dataset.
 
 ## Run Tests
 
@@ -106,7 +115,7 @@ streamlit run app/main.py
 pytest -q
 ```
 
-## Environment Variable Setup
+## Environment Variables
 
 Defined in `.env.example`:
 - `APP_NAME`
@@ -115,17 +124,15 @@ Defined in `.env.example`:
 - `APP_LOG_LEVEL`
 - `APP_MAX_UPLOAD_SIZE_MB`
 - `APP_ALLOWED_UPLOAD_EXTENSIONS`
-- `OPENAI_API_KEY` (placeholder only for future integration)
 
 ## Development Roadmap
 
-- **Phase 1 (Completed):** Production project foundation
-- **Phase 2:** Dataset ingestion and validation workflow integration
-- **Phase 3:** Profiling, cleaning, and EDA modules
-- **Phase 4:** Interactive visualization and export enhancements
-- **Phase 5:** AI insights, Q&A, and ML capabilities
+- **Phase 1 (Completed):** Production foundation
+- **Phase 2 (Completed):** Dataset upload and profiling
+- **Phase 3 (Planned):** Data cleaning and expanded EDA capabilities
+- **Phase 4 (Planned):** Advanced visualization and export enhancements
+- **Phase 5 (Planned):** AI insights, Q&A, and ML capabilities
 
 ## Architecture Reference
 
-See the approved architecture and phased plan:
 - `docs/architecture-and-development-plan.md`

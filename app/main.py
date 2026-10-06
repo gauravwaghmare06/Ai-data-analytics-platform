@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import streamlit as st
+from collections.abc import Callable
 
 from app.config import get_config
+from app.pages.data_profile import render_data_profiling_page
 from app.utils.logger import get_logger, setup_logging
 
 
@@ -12,26 +14,26 @@ def render_overview() -> None:
     """Render project overview page content."""
     st.subheader("Platform Overview")
     st.write(
-        "This Phase 1 release establishes the production foundation for the AI "
-        "Data Analytics Platform with configuration, validation, logging, and test-ready "
-        "project structure."
+        "Phase 2 adds dataset upload and profiling capabilities while preserving "
+        "the modular production foundation introduced in Phase 1."
     )
 
     col1, col2, col3 = st.columns(3)
-    col1.metric("Current Phase", "Phase 1")
-    col2.metric("Status", "Foundation Ready")
+    col1.metric("Current Phase", "Phase 2")
+    col2.metric("Status", "Upload + Profiling")
     col3.metric("App Layer", "Streamlit")
 
 
 def render_foundation_status() -> None:
     """Render implemented foundation capabilities."""
-    st.subheader("Implemented in Phase 1")
+    st.subheader("Implemented Foundation")
     st.markdown(
         "- Modular project structure\n"
         "- Environment-based configuration\n"
         "- Centralized logging utilities\n"
         "- Custom exception hierarchy\n"
-        "- Reusable input/config validators\n"
+        "- Reusable validators\n"
+        "- Dataset upload and profiling services\n"
         "- Initial pytest test suite"
     )
 
@@ -40,13 +42,13 @@ def render_next_steps() -> None:
     """Render high-level roadmap without implementing later-phase features."""
     st.subheader("Planned Next Phases")
     st.info(
-        "Phase 2+ will introduce ingestion workflows, profiling, cleaning, EDA, "
-        "visualization, insights, and ML modules incrementally."
+        "Upcoming phases will add cleaning workflows, richer EDA visualizations, "
+        "and then AI/ML capabilities in sequence."
     )
 
 
 def main() -> None:
-    """Run Streamlit app with foundation-ready navigation shell."""
+    """Run Streamlit app with modular navigation and page rendering."""
     config = get_config()
     setup_logging(config.log_level)
     logger = get_logger(__name__)
@@ -59,11 +61,12 @@ def main() -> None:
     )
 
     st.title(config.app_name)
-    st.caption("Production Foundation | AI Data Analytics Platform")
+    st.caption("Portfolio Project | Phase 2")
 
     st.sidebar.header("Navigation")
-    sections = {
+    sections: dict[str, Callable[[], None]] = {
         "Overview": render_overview,
+        "Data Profiling": lambda: render_data_profiling_page(config),
         "Foundation Status": render_foundation_status,
         "Roadmap": render_next_steps,
     }
