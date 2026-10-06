@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# IDE/editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Streamlit
+.streamlit/
+
+# Logs
+logs/
+*.log
+
+# Local datasets (keep committed sample data)
+data/raw/
+data/processed/
+data/uploads/
+
+# Model artifacts (keep directory tracked)
+models/*
+!models/.gitkeep
+
+# Generated screenshots (keep directory tracked)
+screenshots/*
+!screenshots/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db
