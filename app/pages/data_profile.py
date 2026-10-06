@@ -37,31 +37,27 @@ def render_data_profiling_page(config: AppConfig) -> None:
         ),
     )
 
-    if uploaded_file is None:
-        clear_dataset()
-        st.info("Upload a dataset file to begin profiling.")
-        return
-
-    current_signature = f"{uploaded_file.name}:{uploaded_file.size}"
-    if current_signature != get_dataset_signature() or get_dataset() is None:
-        loader = DataLoaderService()
-        try:
-            loaded = loader.load_uploaded_file(
-                uploaded_file,
-                allowed_extensions=config.allowed_upload_extensions,
-                max_size_mb=config.max_upload_size_mb,
-            )
-            set_dataset(loaded.dataframe, loaded.filename, current_signature)
-            st.success(f"Loaded dataset: {loaded.filename}")
-        except AppError as exc:
-            logger.warning("Dataset upload failed: %s", exc)
-            clear_dataset()
-            st.error(str(exc))
-            return
+    if uploaded_file is not None:
+        current_signature = f"{uploaded_file.name}:{uploaded_file.size}"
+        if current_signature != get_dataset_signature() or get_dataset() is None:
+            loader = DataLoaderService()
+            try:
+                loaded = loader.load_uploaded_file(
+                    uploaded_file,
+                    allowed_extensions=config.allowed_upload_extensions,
+                    max_size_mb=config.max_upload_size_mb,
+                )
+                set_dataset(loaded.dataframe, loaded.filename, current_signature)
+                st.success(f"Loaded dataset: {loaded.filename}")
+            except AppError as exc:
+                logger.warning("Dataset upload failed: %s", exc)
+                clear_dataset()
+                st.error(str(exc))
+                return
 
     dataframe = get_dataset()
     if dataframe is None:
-        st.error("Unable to access dataset in session state.")
+        st.info("Upload a dataset file to begin profiling.")
         return
 
     profiler = DataProfilerService()

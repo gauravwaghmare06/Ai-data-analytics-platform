@@ -1,33 +1,37 @@
 # AI Data Analytics Platform
 
-AI Data Analytics Platform is a production-focused portfolio project for dataset upload, profiling, and progressively expanding analytics capabilities.
+AI Data Analytics Platform is a production-focused portfolio project for dataset upload, profiling, cleaning, and progressively expanding analytics capabilities.
 
-## Phase 2 Status (Current)
+## Phase 3 Status (Current)
 
-✅ **Completed:** Dataset Upload & Data Profiling
+✅ **Completed:** Data Cleaning & Transformation
 
-Implemented through Phase 2:
-- Modular Streamlit application foundation
-- Centralized environment-based configuration
-- Reusable logging and exception hierarchy
-- File validation utilities for upload type/size checks
-- CSV/XLSX dataset loading service with robust error handling
-- Reusable data profiling service for overview, quality, numeric, and categorical summaries
-- Session-state dataset management for active uploaded data
-- Data Profiling UI page with:
-  - upload section
-  - KPI summary cards
-  - dataset preview
-  - column information table
-  - data-quality warnings
-  - numeric and categorical summaries
-- Pytest coverage for configuration, validators, loader, profiler, and exceptions
+Implemented through Phase 3:
+- Modular Streamlit foundation with clear UI/service separation
+- CSV/XLSX dataset upload with validation and robust error handling
+- Dataset profiling (overview, column metadata, quality checks, numeric/categorical summaries)
+- Dedicated data-cleaning service with reusable operations:
+  - missing-value handling (drop rows, mean, median, mode, custom value)
+  - duplicate detection and removal
+  - column rename/remove/normalize
+  - data type conversion (numeric, string, datetime, boolean)
+  - IQR outlier analysis with optional removal
+  - safe row filtering (no `eval`)
+- Session-state dataset lifecycle:
+  - original dataset preserved
+  - current cleaned dataset updated per operation
+  - cleaning operation history tracked with timestamps
+  - reset-to-original support
+- Cleaned dataset export:
+  - CSV download
+  - Excel download
+- Expanded pytest coverage for loader, profiler, cleaner, validators, and state behavior
 
-Not implemented yet (planned later):
-- Data cleaning workflow
+Not implemented yet (planned later phases):
 - Advanced dashboarding/visual storytelling
 - AI insights and natural-language dataset Q&A
 - Machine learning prediction pipelines
+- Authentication and database-backed workflows
 
 ## Supported Data Formats
 
@@ -53,10 +57,12 @@ ai-data-analytics-platform/
 │  ├─ main.py
 │  ├─ config.py
 │  ├─ pages/
-│  │  └─ data_profile.py
+│  │  ├─ data_profile.py
+│  │  └─ data_cleaning.py
 │  ├─ services/
 │  │  ├─ data_loader.py
 │  │  ├─ data_profiler.py
+│  │  ├─ data_cleaner.py
 │  │  └─ dataset_state.py
 │  └─ utils/
 │     ├─ exceptions.py
@@ -104,15 +110,29 @@ streamlit run app/main.py
 1. Open the app.
 2. Go to **Data Profiling** from the sidebar.
 3. Upload a CSV or XLSX file.
-4. Review dataset summary KPIs (rows, columns, missing values, duplicates).
-5. Inspect preview, column-level profile, quality warnings, and statistical summaries.
+4. Review KPIs, preview, column profile, quality warnings, and statistical summaries.
+
+## How to Use Data Cleaning
+
+1. Go to **Data Cleaning** from the sidebar.
+2. Upload or reuse the active dataset.
+3. Apply cleaning operations section by section.
+4. Track applied operations in **Cleaning History**.
+5. Use **Reset to Original Dataset** to recover the original uploaded data.
+6. Export the current cleaned dataset as CSV or Excel.
 
 You can use `data/sample/sales_demo.csv` as a safe synthetic demo dataset.
+
+## Original vs Cleaned Dataset Behavior
+
+- **Original dataset** is preserved in session state and never mutated by cleaning actions.
+- **Current cleaned dataset** is updated after each operation.
+- Reset restores the current cleaned dataset back to the original upload.
 
 ## Run Tests
 
 ```bash
-pytest -q
+python -m pytest -q
 ```
 
 ## Environment Variables
@@ -129,7 +149,7 @@ Defined in `.env.example`:
 
 - **Phase 1 (Completed):** Production foundation
 - **Phase 2 (Completed):** Dataset upload and profiling
-- **Phase 3 (Planned):** Data cleaning and expanded EDA capabilities
+- **Phase 3 (Completed):** Data cleaning and transformation
 - **Phase 4 (Planned):** Advanced visualization and export enhancements
 - **Phase 5 (Planned):** AI insights, Q&A, and ML capabilities
 
