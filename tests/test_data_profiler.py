@@ -14,7 +14,7 @@ def test_profile_overview_and_quality_metrics() -> None:
     dataframe = pd.DataFrame(
         {
             "category": ["A", "A", None],
-            "value": [10, 10, 20],
+            "value": [10, 11, 20],
             "constant": [1, 1, 1],
         }
     )
